@@ -1,0 +1,60 @@
+# Skaffold applies all kubernetes configs when up and delete all when down
+
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/* # watch all kubernetes config files and apply them if changed
+build:
+  local:
+    push: false #disabel automatic push to dockerhub when some change is made
+  artifacts:
+    - image: netogerbi/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js" #watchs those files to throw changes in pod. If another type of file is changes, it rebuilds all the project and tries to restart.
+            dest: .
+    - image: netogerbi/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js" #watchs those files to throw changes in pod. If another type of file is changes, it rebuilds all the project and tries to restart.
+            dest: .
+    - image: netogerbi/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js" #watchs those files to throw changes in pod. If another type of file is changes, it rebuilds all the project and tries to restart.
+            dest: .
+    - image: netogerbi/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js" #watchs those files to throw changes in pod. If another type of file is changes, it rebuilds all the project and tries to restart.
+            dest: .
+    - image: netogerbi/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js" #watchs those files to throw changes in pod. If another type of file is changes, it rebuilds all the project and tries to restart.
+            dest: .
+    - image: netogerbi/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js" #watchs those files to throw changes in pod. If another type of file is changes, it rebuilds all the project and tries to restart.
+            dest: .

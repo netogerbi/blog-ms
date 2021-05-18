@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts
+  template:
+    metadata:
+      labels:
+        app: posts #used in posts-srv to mention the app
+    spec:
+      containers:
+        - name: posts #name of the container
+          image: netogerbi/posts #image on docker hub
+---
+apiVersion: v1
+kind: Service #type of cluster
+metadata:
+  name: posts-clusterip-srv #user as url inside cluster
+spec:
+  selector:
+    app: posts
+  type: ClusterIP #could be ommited, so the kubernetes configures as CluterIP
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
