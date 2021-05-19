@@ -3,6 +3,7 @@
 This is a very minimal example on how to use kubernets with dockerized microservices.
 As a minimal example it shows very basics of how to implement a kind of CQRS and event sourcing pattern.
 To run this application, kubernetes and kubectrl must be installed on machine. (Minikube in this case).
+Also the [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) must be installed in minikube.
 
 ### Follow the steps below to run the application
 
